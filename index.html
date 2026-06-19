@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&family=Great+Vibes&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink:   #F7C5CC;
+      --yellow: #FAF0A0;
+      --teal:   #AEDED8;
+      --black:  #1a1a1a;
+      --cream:  #fdfaf6;
+    }
+
+    body {
+      background: var(--cream);
+      min-height: 100vh;
+      font-family: 'Lato', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── CONFETTI CANVAS ── */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── PASSWORD SCREEN ── */
+    #password-screen {
+      position: fixed;
+      inset: 0;
+      background-image: url(cake-bg.png);
+      background-size: cover;
+      background-position: center center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      gap: 0;
+    }
+
+    /* soft overlay so the form stays readable over the photo */
+    #password-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(253, 250, 246, 0.38);
+      z-index: 0;
+    }
+
+    #password-screen > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pw-balloon {
+      font-size: 52px;
+      margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    #password-screen h2 {
+      font-family: 'Great Vibes', cursive;
+      font-weight: 400;
+      font-size: 64px;
+      color: var(--black);
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+      text-align: center;
+      line-height: 1.15;
+      text-shadow: 0 2px 18px rgba(255,255,255,0.95), 0 1px 4px rgba(255,255,255,0.8);
+      padding: 0 24px;
+    }
+
+    #password-screen p {
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 28px;
+      text-shadow: 0 1px 10px rgba(255,255,255,0.8);
+    }
+
+    #password-screen input {
+      font-family: 'Lato', sans-serif;
+      font-size: 16px;
+      padding: 11px 18px;
+      border: 2px solid var(--black);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.92);
+      color: var(--black);
+      outline: none;
+      width: 240px;
+      text-align: center;
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    #password-screen input:focus {
+      border-color: var(--pink);
+    }
+
+    #password-screen button {
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 11px 36px;
+      background: var(--black);
+      color: #fff;
+      border: 2px solid var(--black);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #password-screen button:hover {
+      background: var(--pink);
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    #password-error {
+      font-size: 13px;
+      color: #c0392b;
+      margin-top: 12px;
+      min-height: 18px;
+      font-style: italic;
+    }
+
+    /* ── MAIN PAGE ── */
+    #birthday-content {
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HEADER BANNER ── */
+    .banner {
+      width: 100%;
+      background-image: url(cake-bg.png);
+      background-size: cover;
+      background-position: center center;
+      border-bottom: 2px solid var(--black);
+      padding: 64px 20px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(253, 250, 246, 0.4);
+      z-index: 0;
+    }
+
+    .banner > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .banner-stripes {
+      display: none;
+    }
+
+    .banner h1 {
+      font-family: 'Great Vibes', cursive;
+      font-weight: 400;
+      font-size: clamp(48px, 10vw, 88px);
+      color: var(--black);
+      position: relative;
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 18px rgba(255,255,255,0.95), 0 1px 4px rgba(255,255,255,0.8);
+    }
+
+    .banner h1 em {
+      font-style: normal;
+      color: #a0584a;
+    }
+
+    .banner-sub {
+      font-family: 'Lato', sans-serif;
+      font-size: 15px;
+      color: var(--black);
+      letter-spacing: 0.1em;
+      margin-top: 14px;
+      position: relative;
+      text-shadow: 0 1px 12px rgba(255,255,255,0.9);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    /* strip section removed */
+
+    /* ── VIDEO SECTION ── */
+    .video-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 20px 64px;
+      gap: 28px;
+    }
+
+    .video-label {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--black);
+      opacity: 0.6;
+      letter-spacing: 0.02em;
+    }
+
+    .video-frame {
+      position: relative;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    /* layered shadow effect — teal then yellow offset boxes */
+    .video-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(10px, 10px);
+      background: var(--teal);
+      border: 2px solid var(--black);
+      z-index: 0;
+    }
+
+    .video-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(5px, 5px);
+      background: var(--yellow);
+      border: 2px solid var(--black);
+      z-index: 1;
+    }
+
+    .video-frame video {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: block;
+      border: 2px solid var(--black);
+      background: #000;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 2px solid var(--black);
+      background: var(--yellow);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .footer p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--black);
+    }
+
+    .footer-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--black);
+    }
+
+    .dot:nth-child(1) { background: var(--pink); }
+    .dot:nth-child(2) { background: var(--teal); }
+    .dot:nth-child(3) { background: var(--yellow); }
+    .dot:nth-child(4) { background: var(--pink); }
+    .dot:nth-child(5) { background: var(--teal); }
+
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- PASSWORD SCREEN -->
+  <div id="password-screen">
+    <div class="pw-balloon">🎈</div>
+    <h2>Happy Birthday<br />Golden Girl</h2>
+    <p>Enter your password to open it</p>
+    <input type="password" id="password-input" placeholder="password"
+           onkeydown="if(event.key==='Enter') checkPassword()" />
+    <button onclick="checkPassword()">Open</button>
+    <div id="password-error"></div>
+  </div>
+
+  <!-- BIRTHDAY PAGE -->
+  <div id="birthday-content">
+
+    <div class="banner">
+      <div class="banner-stripes"></div>
+      <h1>Happy Birthday</h1>
+      <p class="banner-sub">a little something about how I see you ✦</p>
+    </div>
+
+    <div class="video-section">
+      <p class="video-label">press play ↓</p>
+      <div class="video-frame">
+        <!--
+          HOW TO ADD YOUR VIDEO:
+          1. Save your video file in the same folder as this HTML file
+          2. Replace "birthday-video.mp4" below with your actual filename
+             e.g. src="myvideo.MOV" or src="happy-bday.mp4"
+        -->
+        <video controls>
+          <source src="birthday-video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>with love 🎂</p>
+      <div class="footer-dots">
+        <div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── CHANGE "birthday" TO WHATEVER PASSWORD YOU WANT ──
+    const CORRECT_PASSWORD = "birthday";
+
+    function checkPassword() {
+      const input = document.getElementById("password-input").value;
+      const error = document.getElementById("password-error");
+      if (input === CORRECT_PASSWORD) {
+        document.getElementById("password-screen").style.display = "none";
+        document.getElementById("birthday-content").style.display = "block";
+        launchConfetti();
+      } else {
+        error.textContent = "Hmm, that's not it — try again!";
+        document.getElementById("password-input").value = "";
+        document.getElementById("password-input").focus();
+      }
+    }
+
+    // ── CONFETTI ──
+    function launchConfetti() {
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ["#F7C5CC", "#FAF0A0", "#AEDED8", "#1a1a1a", "#ffffff"];
+      const pieces = Array.from({ length: 140 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * -canvas.height,
+        w: Math.random() * 10 + 6,
+        h: Math.random() * 5 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 3 + 1.5,
+        angle: Math.random() * 360,
+        spin: (Math.random() - 0.5) * 4,
+        drift: (Math.random() - 0.5) * 1.5,
+      }));
+
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.angle * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.strokeStyle = "#1a1a1a";
+          ctx.lineWidth = 0.8;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.strokeRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+          p.y += p.speed;
+          p.x += p.drift;
+          p.angle += p.spin;
+          if (p.y > canvas.height) {
+            p.y = -20;
+            p.x = Math.random() * canvas.width;
+          }
+        });
+        frame++;
+        if (frame < 300) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      draw();
+    }
+  </script>
+
+</body>
+</html>
