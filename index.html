@@ -18,7 +18,7 @@
     }
 
     body {
-      background: var(--cream);
+      background: #ffed96;
       min-height: 100vh;
       font-family: 'Lato', sans-serif;
       overflow-x: hidden;
@@ -37,7 +37,7 @@
     #password-screen {
       position: fixed;
       inset: 0;
-      background-color: var(--cream);
+      background-color: #ffed96;
       background-image: url(cake-bg.png);
       background-size: 65%;
       background-repeat: no-repeat;
@@ -155,7 +155,7 @@
     /* ── HEADER BANNER ── */
     .banner {
       width: 100%;
-      background-color: var(--cream);
+      background-color: #ffed96;
       background-image: url(cake-bg.png);
       background-size: 60%;
       background-repeat: no-repeat;
@@ -270,6 +270,60 @@
       background: #000;
     }
 
+    /* ── CONCEPT ART SECTION ── */
+    .concept-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 20px 64px;
+      gap: 24px;
+      border-top: 2px solid var(--black);
+      background: var(--cream);
+    }
+
+    .concept-label {
+      font-family: 'Great Vibes', cursive;
+      font-size: 44px;
+      color: var(--black);
+      margin-top: 32px;
+      letter-spacing: 0.01em;
+    }
+
+    .concept-frame {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .concept-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(10px, 10px);
+      background: var(--pink);
+      border: 2px solid var(--black);
+      z-index: 0;
+    }
+
+    .concept-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(5px, 5px);
+      background: var(--teal);
+      border: 2px solid var(--black);
+      z-index: 1;
+    }
+
+    .concept-frame img {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: block;
+      border: 2px solid var(--black);
+      background: #fff;
+    }
+
     /* ── FOOTER ── */
     .footer {
       border-top: 2px solid var(--black);
@@ -341,9 +395,16 @@
              e.g. src="myvideo.MOV" or src="happy-bday.mp4"
         -->
         <video controls>
-          <source src="dani2dvideo.mov" type="video/mp4" />
+          <source src="birthday-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+      </div>
+    </div>
+
+    <div class="concept-section">
+      <p class="concept-label">Danielle Concept Art</p>
+      <div class="concept-frame">
+        <img src="concept-art.png" alt="Danielle concept art sketches" />
       </div>
     </div>
 
