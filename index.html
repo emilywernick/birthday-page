@@ -64,16 +64,6 @@
       z-index: 1;
     }
 
-    .pw-balloon {
-      font-size: 52px;
-      margin-bottom: 16px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-10px); }
-    }
 
     #password-screen h2 {
       font-family: 'Great Vibes', cursive;
@@ -359,6 +349,13 @@
     .dot:nth-child(4) { background: var(--pink); }
     .dot:nth-child(5) { background: var(--teal); }
 
+    /* ── MOBILE: make password screen cake photo bigger/more zoomed in ── */
+    @media (max-width: 600px) {
+    #password-screen {
+    background-size: 160%;
+    background-position: center 20%;
+  }
+}
   </style>
 </head>
 <body>
@@ -367,7 +364,6 @@
 
   <!-- PASSWORD SCREEN -->
   <div id="password-screen">
-    <div class="pw-balloon">🎈</div>
     <h2>Happy Birthday<br />Golden Girl</h2>
     <p>Enter your password to open it</p>
     <input type="password" id="password-input" placeholder="password"
