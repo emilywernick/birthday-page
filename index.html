@@ -18,11 +18,7 @@
     }
 
     body {
-      background-color: #ffed96;
-      background-image: url(cake-bg.png);
-      background-size: 700px auto;
-      background-repeat: repeat-y;
-      background-position: center top;
+      background: #ffed96;
       min-height: 100vh;
       font-family: 'Lato', sans-serif;
       overflow-x: hidden;
@@ -43,8 +39,9 @@
       inset: 0;
       background-color: #ffed96;
       background-image: url(cake-bg.png);
-      background-size: cover;
-      background-position: center top;
+      background-size: 65%;
+      background-repeat: no-repeat;
+      background-position: center center;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -158,7 +155,11 @@
     /* ── HEADER BANNER ── */
     .banner {
       width: 100%;
-      background: transparent;
+      background-color: #ffed96;
+      background-image: url(cake-bg.png);
+      background-size: 60%;
+      background-repeat: no-repeat;
+      background-position: center center;
       border-bottom: 2px solid var(--black);
       padding: 64px 20px 56px;
       text-align: center;
@@ -170,7 +171,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(253, 250, 246, 0.55);
+      background: rgba(253, 250, 246, 0.4);
       z-index: 0;
     }
 
@@ -277,7 +278,7 @@
       padding: 16px 20px 64px;
       gap: 24px;
       border-top: 2px solid var(--black);
-      background: transparent;
+      background: #ffed96;
     }
 
     .concept-label {
@@ -326,7 +327,7 @@
     /* ── FOOTER ── */
     .footer {
       border-top: 2px solid var(--black);
-      background: transparent;
+      background: var(--yellow);
       padding: 28px 20px;
       text-align: center;
     }
@@ -394,7 +395,7 @@
              e.g. src="myvideo.MOV" or src="happy-bday.mp4"
         -->
         <video controls>
-          <source src="birthday-video.mp4" type="video/mp4" />
+          <source src="dani2dvideo.mov" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
